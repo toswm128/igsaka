@@ -1,11 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "@emotion/styled";
 import Board from "./components/Board";
+import axios from "axios";
 
 const Header = styled.header`
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
+  gap: 16px;
 `;
 
 const Title = styled.div`
@@ -21,6 +24,15 @@ const Search = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  input {
+    width: 711px;
+    padding: 0 16px;
+    font-size: 36px;
+    height: 53;
+    border: 0;
+    border: 3px solid black;
+    border-radius: 27px;
+  }
 `;
 
 const Main = styled.main`
@@ -46,6 +58,9 @@ const Boards = styled.div`
   width: 100%;
 `;
 function App() {
+  useEffect(() => {
+    axios.get("http://localhost:5000/").then(res => console.log(res));
+  }, []);
   return (
     <div className="App">
       <Header>
