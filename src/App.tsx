@@ -53,9 +53,10 @@ const Tap = styled.div`
 `;
 
 const Boards = styled.div`
+  margin-top: 64px;
   display: flex;
   flex-wrap: wrap;
-  gap: 5px;
+  gap: 16px;
   width: 100%;
 `;
 
@@ -105,8 +106,8 @@ function App() {
       <Main>
         <Boards>
           {searchData &&
-            searchData.map(({ href, name, spec }: IBoard) => (
-              <Board href={href} name={name} spec={spec} />
+            searchData.map(({ href, name, spec, src }: IBoard) => (
+              <Board  href={href} name={name} src={src} spec={spec} />
             ))}
         </Boards>
       </Main>

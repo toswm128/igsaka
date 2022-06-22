@@ -5,12 +5,13 @@ export interface IBoard {
   href: string;
   name: string;
   spec: string;
+  src: string;
 }
 
-const Board = ({ href, name, spec }: IBoard) => {
+const Board = ({ href, name, spec, src }: IBoard) => {
   return (
-    <BoardItem href={href}>
-      {/* <img src={gif} alt="" /> */}
+    <BoardItem target="_blank" href={href}>
+      <img src={src} alt="" />
       <h1>{name}</h1>
       <div>{spec}</div>
     </BoardItem>
@@ -18,11 +19,15 @@ const Board = ({ href, name, spec }: IBoard) => {
 };
 
 const BoardItem = styled.a`
-  width: 305px;
+  transition: 1s all;
+  width: 294px;
   img {
     width: 100%;
     height: 177px;
     object-fit: cover;
+  }
+  &:hover {
+    transform: scale(1.1);
   }
 `;
 

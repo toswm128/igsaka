@@ -33,7 +33,13 @@ def get_copang(url):
             if a:
                 info["href"] = a['href']
                 img = a.find('img')
-                print(img)
+
+                # print(img["src"])
+                if img.has_attr('src'):
+                    info["src"] = "https:"+img['src']
+                else:
+                    info["src"] = "https:"+img["data-original"]
+                    print(img["data-original"])
             
                 searchList.append(info)
 
