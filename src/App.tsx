@@ -1,7 +1,8 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "@emotion/styled";
 import Board from "./components/Board";
 import axios from "axios";
+import { IBoard } from "./components/Board/Board";
 
 const Header = styled.header`
   width: 100%;
@@ -19,7 +20,7 @@ const Title = styled.div`
   justify-content: center;
 `;
 
-const Search = styled.div`
+const Search = styled.form`
   width: 100%;
   display: flex;
   align-items: center;
@@ -57,34 +58,56 @@ const Boards = styled.div`
   gap: 5px;
   width: 100%;
 `;
+
+const useSearch = () => {
+  const [keyword, setKeyWord] = useState("");
+  const [searchData, setSearchData] = useState([]);
+
+  const onChangeKeyWord = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setKeyWord(e.target.value);
+  };
+
+  const getSearchData = async () => {
+    try {
+      const result = await axios.get(
+        `http://localhost:5000/?search=${keyword}`
+      );
+      setSearchData(result.data.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  return { searchData, onChangeKeyWord, getSearchData, keyword };
+};
+
 function App() {
-  useEffect(() => {
-    axios.get("http://localhost:5000/").then(res => console.log(res));
-  }, []);
+  const { searchData, onChangeKeyWord, getSearchData, keyword } = useSearch();
+
   return (
     <div className="App">
       <Header>
         <Title>이거 살까</Title>
-        <Search>
-          <input placeholder="검색어를 입력해 주세요" type="text" />
+        <Search
+          onSubmit={(e) => {
+            e.preventDefault();
+            window.history.pushState("", "main", `/${keyword}`);
+            getSearchData();
+          }}
+        >
+          <input
+            onChange={onChangeKeyWord}
+            placeholder="검색어를 입력해 주세요"
+            type="text"
+          />
         </Search>
       </Header>
       <Main>
-        <Taps>
-          <Tap>쿠팡</Tap>
-          <Tap>네이버 쇼핑</Tap>
-          <Tap>다나와</Tap>
-          <Tap>쿠팡</Tap>
-        </Taps>
         <Boards>
-          <Board />
-          <Board />
-          <Board />
-          <Board />
-          <Board />
-          <Board />
-          <Board />
-          <Board />
+          {searchData &&
+            searchData.map(({ href, name, spec }: IBoard) => (
+              <Board href={href} name={name} spec={spec} />
+            ))}
         </Boards>
       </Main>
     </div>

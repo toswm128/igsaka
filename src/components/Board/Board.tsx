@@ -1,7 +1,23 @@
 import styled from "@emotion/styled";
 import gif from "../../source/gif.gif";
 
-const BoardItem = styled.div`
+export interface IBoard {
+  href: string;
+  name: string;
+  spec: string;
+}
+
+const Board = ({ href, name, spec }: IBoard) => {
+  return (
+    <BoardItem href={href}>
+      {/* <img src={gif} alt="" /> */}
+      <h1>{name}</h1>
+      <div>{spec}</div>
+    </BoardItem>
+  );
+};
+
+const BoardItem = styled.a`
   width: 305px;
   img {
     width: 100%;
@@ -10,12 +26,4 @@ const BoardItem = styled.div`
   }
 `;
 
-const Board = () => {
-  return (
-    <BoardItem>
-      <img src={gif} alt="" />
-      <div>a</div>
-    </BoardItem>
-  );
-};
 export default Board;
